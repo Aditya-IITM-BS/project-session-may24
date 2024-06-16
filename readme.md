@@ -1,4 +1,4 @@
-This a dummy project for project session, it will be updated throughout the session
+This a dummy project for MAD II project session, it will be updated throughout the session
 
 # Student Resource Management
 
@@ -6,7 +6,7 @@ This a dummy project for project session, it will be updated throughout the sess
 
 ## Session 02 : Backend
 
-- [ ] create flask app
+- [] create flask app
 - [ ] create basic view
 - [ ] create models
 - [ ] setting up SQLalchemy db instance
