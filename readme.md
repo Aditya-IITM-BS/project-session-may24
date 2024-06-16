@@ -6,9 +6,11 @@ This a dummy project for MAD II project session, it will be updated throughout t
 
 ## Session 02 : Backend
 
-- [] create flask app
+- [ ] create flask app
 - [ ] create basic view
 - [ ] create models
+- [ ] configure flask instance
 - [ ] setting up SQLalchemy db instance
 - [ ] setting up Security instance
 - [ ] populating sqlite database
+- [ ] create simple views for rbac dashboard
