@@ -7,12 +7,10 @@ def create_data(user_datastore : SQLAlchemySessionUserDatastore):
     print("creating roles and users") # for debug purposes
 
     # creating roles
-    if not user_datastore.find_role('admin'):
-        user_datastore.create_role(name='admin', description = "Administrator")
-    if not user_datastore.find_role('inst'):
-        user_datastore.create_role(name='inst', description = "Instructor")
-    if not user_datastore.find_role('stud'):
-        user_datastore.create_role(name='stud', description = "Student")
+
+    user_datastore.find_or_create_role(name='admin', description = "Administrator")
+    user_datastore.find_or_create_role(name='inst', description = "Instructor")
+    user_datastore.find_or_create_role(name='stud', description = "Student")
 
     # creating initial data
 

@@ -11,6 +11,7 @@ def create_app():
     app.config['SECRET_KEY'] = 'should-not-be-seen'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
     app.config['SECURITY_PASSWORD_SALT'] = 'salty-password'
+    app.config['SECURITY_TOKEN_AUTHENTICATION_HEADER'] = 'Authentication-Token'
 
     # tell flask to use sql_alchemy db
     db.init_app(app)
