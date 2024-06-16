@@ -1,5 +1,5 @@
 from flask import render_template_string
-from flask_security import auth_required, current_user
+from flask_security import auth_required, current_user, roles_required
 
 
 
@@ -27,5 +27,25 @@ def create_views(app):
                 <p> Welcome, {{current_user.email}}</p>
                 <p> Role :  {{current_user.roles[0].description}}</p>
                 <p><a href="/logout">Logout</a></p>
+            """
+        )
+    
+    @app.route('/inst-dashboard')
+    @roles_required('inst')
+    def inst_dashboard():
+        return render_template_string(
+            """
+                <h1>this is intructor dashboard</h1>
+                <p>This should only be accessable to inst</p>
+            """
+        )
+    
+    @app.route('/stud-dashboard')
+    @roles_required('stud')
+    def stud_dashboard():
+        return render_template_string(
+            """
+                <h1>this is student dashboard</h1>
+                <p>This should only be accessable to student</p>
             """
         )
