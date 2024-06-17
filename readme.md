@@ -1,4 +1,4 @@
-# Student Resource Management
+# Study Resource Management
 
 This a dummy project for MAD II project session, it will be updated throughout the session
 
