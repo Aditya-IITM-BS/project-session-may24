@@ -6,14 +6,14 @@ This a dummy project for MAD II project session, it will be updated throughout t
 
 ## Session 02 : Backend
 
-- [ ] development environment setup
-- [ ] create flask app
-- [ ] create basic view
-- [ ] create models
-- [ ] configure flask instance
-- [ ] setting up SQLalchemy db instance
-- [ ] setting up Security instance
-- [ ] populating sqlite database
+- [x] development environment setup
+- [x] create flask app
+- [x] create basic view
+- [x] create models
+- [x] configure flask instance
+- [x] setting up SQLalchemy db instance
+- [x] setting up Security instance
+- [x] populating sqlite database
 - [ ] profile view
 - [ ] demonstrate thunderclient
 - [ ] create simple views for rbac dashboard
