@@ -24,6 +24,10 @@ This a dummy project for MAD II project session, it will be updated throughout t
 - [ ] create StudyResource model
 - [ ] create API for StudyResource
 - [ ] implement CRUD for StudyResource
+- [ ] register user functionality (instructor and Student)
+- [ ] add endpoint to activate instructor
+- [ ] create homepage in Vue
+- [ ] create templates and static folders
 - [ ] create Login and signup page
-- [ ] implement login and sighup in backend
+- [ ] connect login and signup in frontend
 - [ ] show StudyResources in Dashboard
