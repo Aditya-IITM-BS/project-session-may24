@@ -22,5 +22,6 @@ def create_data(user_datastore : SQLAlchemySessionUserDatastore):
     if not user_datastore.find_user(email = "stud@iitm.ac.in"):
         user_datastore.create_user(email = "stud@iitm.ac.in", password = hash_password("pass"), roles=['stud'])
 
+    # create dummy study resource
 
     db.session.commit()

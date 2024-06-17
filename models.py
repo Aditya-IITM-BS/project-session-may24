@@ -22,9 +22,5 @@ class Role(db.Model, RoleMixin):
     name = db.Column(db.String(80), unique = True)
     description = db.Column(db.String(255))
 
-class StudyResource(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    topic = db.Column(db.String(80), nullable = False)
-    creator = db.Column(db.Integer, db.ForeignKey('user.id'))
-    content = db.Column(db.String)
-    is_approved = db.Column(db.Boolean, default = False)
+class StudyResource():
+    pass
