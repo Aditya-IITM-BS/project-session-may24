@@ -1,5 +1,6 @@
 from flask_restful import Resource, Api, reqparse, marshal_with, fields
 from models import StudyResource, db
+from flask_security import auth_required
 
 parser = reqparse.RequestParser() # if a client is sending data, it will convert into a dict
 parser.add_argument('topic', type=str, help = "Topic should be string", required = True)
@@ -19,13 +20,15 @@ study_material_fields = {
 
 class StudyMaterial(Resource):
 
-    # get request will run this function (R - retrieve)
+    # get request will run this function (retrieve)
+    @auth_required('token','session')
     @marshal_with(study_material_fields)
     def get(self):
         all_study_resources = StudyResource.query.all()
         return all_study_resources
     
-    # post request will run this function (C - create)
+    # post request will run this function (create)
+    @auth_required('token', 'session')
     def post(self):
         args = parser.parse_args()
         study_resource = StudyResource(creator_id = 1, is_approved = False, **args )

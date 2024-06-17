@@ -1,4 +1,4 @@
-from flask import render_template_string
+from flask import render_template_string, render_template
 from flask_security import auth_required, current_user, roles_required
 
 
@@ -8,14 +8,7 @@ def create_views(app):
     # homepage
     @app.route('/')
     def home():
-        return render_template_string(
-            """
-                <h1>Home Page</h1>
-            <p><a href="/profile">Go to your profile</a></p>
-            <p><a href="/login">Login</a></p>
-    
-            """
-        )
+        return render_template('index.html') # entry point to vue frontend
 
     # profile
     @app.route('/profile')
