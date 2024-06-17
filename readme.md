@@ -1,6 +1,6 @@
-This a dummy project for MAD II project session, it will be updated throughout the session
-
 # Student Resource Management
+
+This a dummy project for MAD II project session, it will be updated throughout the session
 
 ## Session 01 : Project Discussion and Overview
 

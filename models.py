@@ -16,11 +16,16 @@ class User(db.Model, UserMixin):
     active = db.Column(db.Boolean)
     fs_uniquifier = db.Column(db.String(65), unique = True, nullable = False)
     roles = db.relationship('Role', secondary='user_roles')
+    # study_resource = db.relationship('StudyResource', backref = 'creator')
 
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(80), unique = True)
     description = db.Column(db.String(255))
 
-class StudyResource():
-    pass
+class StudyResource(db.Model):
+    id = db.Column(db.Integer, primary_key= True)
+    topic = db.Column(db.String(80), unique = True, nullable=False)
+    content = db.Column(db.String)
+    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
+    is_approved = db.Column(db.Boolean, default = False)

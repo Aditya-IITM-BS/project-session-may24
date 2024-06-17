@@ -2,6 +2,7 @@ from flask import Flask
 from extensions import db, security
 import views
 import create_initial_data
+import resources
 
 def create_app():
     app = Flask(__name__)
@@ -28,6 +29,9 @@ def create_app():
 
     # setup the view
     views.create_views(app)
+
+    # setup api
+    resources.api.init_app(app)
 
     return app
 
