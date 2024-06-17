@@ -17,3 +17,13 @@ This a dummy project for MAD II project session, it will be updated throughout t
 - [ ] profile view
 - [ ] demonstrate thunderclient
 - [ ] create simple views for rbac dashboard
+
+## Session 03 : Login Frontend & api creation
+
+- [ ] refactor app config to config.py
+- [ ] create StudyResource model
+- [ ] create API for StudyResource
+- [ ] implement CRUD for StudyResource
+- [ ] create Login and signup page
+- [ ] implement login and sighup in backend
+- [ ] show StudyResources in Dashboard
