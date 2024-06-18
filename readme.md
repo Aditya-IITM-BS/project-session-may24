@@ -29,5 +29,6 @@ This a dummy project for MAD II project session, it will be updated throughout t
 - [ ] create homepage in Vue
 - [ ] create templates and static folders
 - [ ] create Login and signup page
+- [ ] disable or implement CSRF in frontend
 - [ ] connect login and signup in frontend
 - [ ] show StudyResources in Dashboard

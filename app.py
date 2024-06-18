@@ -13,6 +13,9 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
     app.config['SECURITY_PASSWORD_SALT'] = 'salty-password'
     app.config['SECURITY_TOKEN_AUTHENTICATION_HEADER'] = 'Authentication-Token'
+    
+
+
 
     # tell flask to use sql_alchemy db
     db.init_app(app)
@@ -26,6 +29,11 @@ def create_app():
         
         db.create_all()
         create_initial_data.create_data(user_datastore)
+
+    # disable CSRF protection, from WTforms as well as flask security
+    app.config["WTF_CSRF_CHECK_DEFAULT"] = False
+    app.config['SECURITY_CSRF_PROTECT_MECHANISMS'] = []
+    app.config['SECURITY_CSRF_IGNORE_UNAUTH_ENDPOINTS'] = True
 
     # setup the view
     views.create_views(app)
