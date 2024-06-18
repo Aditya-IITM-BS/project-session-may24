@@ -1,6 +1,6 @@
 const home = {
   template: `
-    <div>
+    <div class="d-flex align-items-center justify-content-center vh-100">
         <h1> This is homepage </h1>
     </div>
     `,
