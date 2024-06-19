@@ -1,9 +1,8 @@
-from flask import render_template_string, render_template
+from flask import render_template_string, render_template, Flask, request
 from flask_security import auth_required, current_user, roles_required
+from flask_security import SQLAlchemySessionUserDatastore
 
-
-
-def create_views(app):
+def create_views(app : Flask, user_datastore : SQLAlchemySessionUserDatastore ):
 
     # homepage
     @app.route('/')
@@ -22,14 +21,23 @@ def create_views(app):
                 <p><a href="/logout">Logout</a></p>
             """
         )
-    
+
+    @app.route('/register')
+    def register():
+        data = request.form
+        if data.role == 'Instructor':
+            user_datastore.find_user(**data, active = False, roles = ['inst'])
+        elif data.role == 'Student':
+            user_datastore.create_user(**data, active = True, roles=['stud'])
+
+
     @app.route('/inst-dashboard')
     @roles_required('inst')
     def inst_dashboard():
         return render_template_string(
             """
-                <h1>this is intructor dashboard</h1>
-                <p>This should only be accessable to inst</p>
+                <h1>this is instructor dashboard</h1>
+                <p>This should only be accessible to inst</p>
             """
         )
     
@@ -39,6 +47,6 @@ def create_views(app):
         return render_template_string(
             """
                 <h1>this is student dashboard</h1>
-                <p>This should only be accessable to student</p>
+                <p>This should only be accessible to student</p>
             """
         )

@@ -1,8 +1,8 @@
 const Logout = {
   template: `
     <div> 
-        <h1 v-if="logoutSuccess">Succesfull Logged out </h1>
-        <h1 v-else> Logout Unsuccesful</h1>
+        <h1 v-if="logoutSuccess">Successful Logged out </h1>
+        <h1 v-else> Logout Unsuccessful</h1>
     </div>
     `,
   data() {

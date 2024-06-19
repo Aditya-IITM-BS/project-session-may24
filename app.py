@@ -16,7 +16,6 @@ def create_app():
     
 
 
-
     # tell flask to use sql_alchemy db
     db.init_app(app)
 
@@ -36,7 +35,7 @@ def create_app():
     app.config['SECURITY_CSRF_IGNORE_UNAUTH_ENDPOINTS'] = True
 
     # setup the view
-    views.create_views(app)
+    views.create_views(app, user_datastore)
 
     # setup api
     resources.api.init_app(app)
