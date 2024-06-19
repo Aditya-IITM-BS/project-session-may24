@@ -1,10 +1,17 @@
+import router from "../utils/router.js";
+
 const Login = {
   template: `
-    <div class="d-flex justify-content-center align-items-center">
-      <div class="h-25 w-25 border border-2 d-flex flex-column">
-        <input v-model="email" placeholder="email"/>
-        <input v-model="password" type="password" placeholder="password"/>
-        <button class="btn btn-primary w-max-25" @click="submitInfo">Submit</button>
+    <div class="d-flex justify-content-center align-items-center vh-100">
+      <div class="card shadow p-4">
+        <h3 class="card-title text-center mb-4">Login</h3>
+        <div class="form-group mb-3">
+          <input v-model="email" type="email" class="form-control" placeholder="Email" required/>
+        </div>
+        <div class="form-group mb-4">
+          <input v-model="password" type="password" class="form-control" placeholder="Password" required/>
+        </div>
+        <button class="btn btn-primary w-100" @click="submit_form">Submit</button>
       </div>
     </div>
   `,
@@ -31,10 +38,11 @@ const Login = {
         const data = await res.json();
         console.log(data);
         // Handle successful login, e.g., redirect or store token
+        router.push("/profile");
       } else {
         const errorData = await res.json();
         console.error("Login failed:", errorData);
-        // Handle login error, e.g., show error message to user
+        // Handle login error
       }
     },
   },
