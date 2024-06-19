@@ -31,3 +31,10 @@ This a dummy project for MAD II project session, it will be updated throughout t
 - [ ] create Login and signup page
 - [ ] connect login and signup in frontend
 - [ ] show StudyResources in Dashboard
+- [ ] Front End integration with Vue.js 🌐
+- [ ] Generating password hashes for security 🔒
+- [ ] Creating endpoints for user login 🛡️
+- [ ] Implementing navigation guards for authentication 🔑
+- [ ] Using local storage for user authentication 🔄
+- [ ] Passing role information via query parameters 🔄
+- [ ] Ensuring role security by checking in the backend 🛡️
