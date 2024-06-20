@@ -13,8 +13,8 @@ const Signup = {
         </div>
         <div class="form-group mb-4">
           <select v-model="role" class="form-control">
-            <option value="Student">Student</option>
-            <option value="Instructor">Instructor</option>
+            <option value="stud">Student</option>
+            <option value="inst">Instructor</option>
           </select>
         </div>
         <button class="btn btn-primary w-100" @click="submitInfo">Submit</button>
@@ -42,7 +42,7 @@ const Signup = {
           password: this.password,
           role: this.role,
         }),
-        credentials: "same-origin", // Include credentials (cookies) with the request
+        credentials: "same-origin",
       });
 
       if (res.ok) {
