@@ -37,6 +37,7 @@ This a dummy project for MAD II project session, it will be updated throughout t
 ## Session 04 : Finishing Dashboards & additional Features
 
 - [ ] show StudyResources in Dashboard
+- [ ] create StudyResource component 
 - [ ] create add resources page
 - [ ] fix add resource creator id in backend
 - [ ] add endpoint to activate instructor (only admin access)
@@ -44,4 +45,5 @@ This a dummy project for MAD II project session, it will be updated throughout t
 - [ ] Approve studyResource backend (instructor access)
 - [ ] Approve study resource frontend (instructor access)
 - [ ] convert all auth to token based auth
+- [ ] include vuex to store data
 - [ ] tell windows students to install wsl/virtualbox/dualboot linux
