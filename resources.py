@@ -9,7 +9,8 @@ parser.add_argument('content', type=str, help = "Topic should be string")
 api = Api(prefix='/api')
 
 # marshal with is used to serialize the data coming from database
-
+# Marshalling is the process of transforming the memory representation of an object 
+# to a data format that could be stored or transmitted. 
 study_material_fields = {
     'id' : fields.Integer,
     'topic' : fields.String,

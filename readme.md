@@ -38,9 +38,10 @@ This a dummy project for MAD II project session, it will be updated throughout t
 
 - [ ] show StudyResources in Dashboard
 - [ ] create add resources page
+- [ ] fix add resource creator id in backend
 - [ ] add endpoint to activate instructor (only admin access)
 - [ ] add frontend to activate instructor (only admin access)
-- [ ] Approve studyResource backend
-- [ ] Approve study resource frontend
+- [ ] Approve studyResource backend (instructor access)
+- [ ] Approve study resource frontend (instructor access)
 - [ ] convert all auth to token based auth
 - [ ] tell windows students to install wsl/virtualbox/dualboot linux
