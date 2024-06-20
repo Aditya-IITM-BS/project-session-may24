@@ -1,8 +1,9 @@
-from flask import render_template_string, render_template, Flask, request
+from flask import render_template_string, render_template, Flask, request, jsonify
 from flask_security import auth_required, current_user, roles_required
 from flask_security import SQLAlchemySessionUserDatastore
+from flask_security.utils import hash_password
 
-def create_views(app : Flask, user_datastore : SQLAlchemySessionUserDatastore ):
+def create_views(app : Flask, user_datastore : SQLAlchemySessionUserDatastore, db ):
 
     # homepage
     @app.route('/')
@@ -22,13 +23,39 @@ def create_views(app : Flask, user_datastore : SQLAlchemySessionUserDatastore ):
             """
         )
 
-    @app.route('/register')
+    @app.route('/register', methods=['POST'])
     def register():
-        data = request.form
-        if data.role == 'Instructor':
-            user_datastore.find_user(**data, active = False, roles = ['inst'])
-        elif data.role == 'Student':
-            user_datastore.create_user(**data, active = True, roles=['stud'])
+
+        data = request.get_json()
+        
+
+        
+
+        email = data.get('email')
+        password = data.get('password')
+        role = data.get('role')
+ 
+
+        if not email or not password or not role:
+            return jsonify({'message' : 'invalid input'}), 403
+
+        if user_datastore.find_user(email = email ):
+            return jsonify({'message' : 'user already exists'}), 400
+        
+        if role == 'inst':
+            user_datastore.create_user(email = email, password = hash_password(password), active = False, roles = ['inst'])
+            db.session.commit()
+            return jsonify({'message' : 'Instructor succesfully created, waiting for admin approval'}), 201
+        
+        elif role == 'stud':
+            try :
+                user_datastore.create_user(email = email, password = hash_password(password), active = True, roles=['stud']), 201
+                db.session.commit()
+            except:
+                print('error while creating')
+            return jsonify({'message' : 'Student successfully created'})
+        
+        return jsonify({'message' : 'invalid role'}), 400
 
 
     @app.route('/inst-dashboard')

@@ -30,5 +30,8 @@ This a dummy project for MAD II project session, it will be updated throughout t
 - [ ] create templates and static folders
 - [ ] create Login and signup page
 - [ ] disable or implement CSRF in frontend
+- [ ] implement register route in backend
+- [ ] check register route with thunderclient
 - [ ] connect login and signup in frontend
 - [ ] show StudyResources in Dashboard
+- [ ] tell windows students to install wsl/virtualbox/dualboot linux
