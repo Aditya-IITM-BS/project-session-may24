@@ -1,8 +1,9 @@
 # Study Resource Management
 
 This a dummy project for MAD II project session, it will be updated throughout the session
-
-The main branch does not contain any code, click 'main' on top left of this page to find different branches and download the code.  
+### Note:
+The main branch does not contain any code, click 'main' on top left of this page to find different branches and download the code. 
+live branch contains code upto the latest live session.
 
 ## Session 01 : Project Discussion and Overview
 
