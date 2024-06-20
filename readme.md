@@ -25,7 +25,6 @@ This a dummy project for MAD II project session, it will be updated throughout t
 - [ ] create API for StudyResource
 - [ ] implement CRUD for StudyResource
 - [ ] register user functionality (instructor and Student)
-- [ ] add endpoint to activate instructor (only admin access)
 - [ ] create homepage in Vue
 - [ ] create templates and static folders
 - [ ] create Login and signup page
@@ -33,5 +32,15 @@ This a dummy project for MAD II project session, it will be updated throughout t
 - [ ] implement register route in backend
 - [ ] check register route with thunderclient
 - [ ] connect login and signup in frontend
+- [ ] tell windows students to install wsl/virtualbox/dualboot linux
+
+## Session 04 : Finishing Dashboards & additional Features
+
 - [ ] show StudyResources in Dashboard
+- [ ] create add resources page
+- [ ] add endpoint to activate instructor (only admin access)
+- [ ] add frontend to activate instructor (only admin access)
+- [ ] Approve studyResource backend
+- [ ] Approve study resource frontend
+- [ ] convert all auth to token based auth
 - [ ] tell windows students to install wsl/virtualbox/dualboot linux
