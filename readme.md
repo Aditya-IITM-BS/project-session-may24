@@ -5,6 +5,13 @@ This a dummy project for MAD II project session, it will be updated throughout t
 The main branch does not contain any code, click 'main' on top left of this page to find different branches and download the code. 
 live branch contains code upto the latest live session.
 
+## Problem Statement
+An application where students will create resources and instructors will verify those resources. Then the resources will be published to all the students
+Requirements:
+> There should be only one admin
+> Instructors must approve the resources
+> Admin should approve the instructor
+
 ## Session 01 : Project Discussion and Overview
 
 ## Session 02 : Backend
