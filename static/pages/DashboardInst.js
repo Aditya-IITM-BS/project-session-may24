@@ -1,7 +1,7 @@
 import StudyResource from "../components/StudyResource.js";
 
-const DashboardAdmin = {
-  template: `<div><h1>This is Instructor dashboard</h1>
+const DashboardInst = {
+  template: `<div><h1>This is Instructor dashboard {{test}}</h1>
               <div d-flex flex-row p-5 v-for="resource in allResources">
                 <StudyResource :topic="resource.topic" :content="resource.content" :creator="resource.creator" :approvalRequired="true" />
               </div>
@@ -11,6 +11,7 @@ const DashboardAdmin = {
   },
   data() {
     return {
+      test: this.$store.state.test,
       allResources: [
         {
           topic: "topic 1",
@@ -35,4 +36,4 @@ const DashboardAdmin = {
   },
 };
 
-export default DashboardAdmin;
+export default DashboardInst;
