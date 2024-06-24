@@ -10,6 +10,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///data.db"
     app.config['SECURITY_PASSWORD_SALT'] = 'salty-password'
 
+
     db.init_app(app)
 
     with app.app_context():
@@ -25,7 +26,12 @@ def create_app():
         
         create_data(user_datastore)
 
-    views.create_view(app)
+    app.config['WTF_CSRF_CHECK_DEFAULT'] = False
+    app.config['SECURITY_CSRF_PROTECT_MECHANISHMS'] = []
+    app.config['SECURITY_CSRF_IGNORE_UNAUTH_ENDPOINTS'] = True
+
+
+    views.create_view(app, user_datastore)
 
     return app
 

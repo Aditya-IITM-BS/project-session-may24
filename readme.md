@@ -24,10 +24,18 @@ This a dummy project for MAD II project session, it will be updated throughout t
 - [ ] create StudyResource model
 - [ ] create API for StudyResource
 - [ ] implement CRUD for StudyResource
-- [ ] register user functionality (instructor and Student)
-- [ ] add endpoint to activate instructor
-- [ ] create homepage in Vue
-- [ ] create templates and static folders
-- [ ] create Login and signup page
-- [ ] connect login and signup in frontend
+- [x] register user functionality (instructor and Student)
+- [ ] add endpoint to activate instructor (only admin access)
+- [x] create homepage in Vue
+- [x] create templates and static folders
+- [x] create Login and signup page
+- [x] disable or implement CSRF in frontend
+- [x] implement register route in backend
+- [x] check register route with thunderclient
+- [x] connect login and signup in frontend
 - [ ] show StudyResources in Dashboard
+- [ ] tell windows students to install wsl/virtualbox/dualboot linux
+
+## To do
+
+- [ ] make CSRF work
