@@ -22,5 +22,9 @@ class UserRoles(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
 
-# class StudyResource(db.Model):
-#     pass
+class StudyResource(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    topic = db.Column(db.String, nullable = False)
+    content = db.Column(db.Text)
+    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
+    # is_approved = db.Column(db.Boolean, default = False)

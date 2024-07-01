@@ -2,6 +2,7 @@ from flask import Flask
 import views
 from extentions import db, security
 from create_initial_data import create_data
+import resources
 
 def create_app():
     app = Flask(__name__)
@@ -32,6 +33,9 @@ def create_app():
 
 
     views.create_view(app, user_datastore)
+
+    # connect flask to flask_restful
+    resources.api.init_app(app)
 
     return app
 

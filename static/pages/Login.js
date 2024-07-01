@@ -1,4 +1,5 @@
 import router from "../utils/router.js";
+import store from "../utils/store.js";
 
 const Login = {
   template: `
@@ -33,6 +34,9 @@ const Login = {
       });
 
       if (res.ok) {
+        store.commit("setLogin");
+        console.log(store.state.loggedIn);
+        // set role also
         router.push("/profile"); // add logic for inst-dash vs stud
       } else {
         console.error("Login Failed");
