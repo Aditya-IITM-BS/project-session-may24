@@ -1,5 +1,5 @@
 import router from "../utils/router.js";
-import store from "../utils/store.js";
+// import store from "../utils/store.js";
 
 const Login = {
   template: `
@@ -25,7 +25,7 @@ const Login = {
   methods: {
     async submitInfo() {
       const url = window.location.origin;
-      const res = await fetch(url + "/login", {
+      const res = await fetch(url + "/user-login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,10 +34,16 @@ const Login = {
       });
 
       if (res.ok) {
-        store.commit("setLogin");
-        console.log(store.state.loggedIn);
-        // set role also
-        router.push("/profile"); // add logic for inst-dash vs stud
+        const data = await res.json();
+
+        sessionStorage.setItem("token", data.token);
+        sessionStorage.setItem("role", data.role);
+        sessionStorage.setItem("email", data.email);
+        sessionStorage.setItem("id", data.id);
+
+        console.log(sessionStorage.getItem("role"));
+
+        router.push("/dashboard"); // add logic for inst-dash vs stud
       } else {
         console.error("Login Failed");
       }

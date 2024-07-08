@@ -27,4 +27,4 @@ class StudyResource(db.Model):
     topic = db.Column(db.String, nullable = False)
     content = db.Column(db.Text)
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
-    # is_approved = db.Column(db.Boolean, default = False)
+    is_approved = db.Column(db.Boolean, default = False)

@@ -13,7 +13,11 @@ const DashBoardStud = {
     };
   },
   async mounted() {
-    const res = await fetch(window.location.origin + "/api/resources");
+    const res = await fetch(window.location.origin + "/api/resources", {
+      headers: {
+        "Authentication-Token": sessionStorage.getItem("token"),
+      },
+    });
     const data = await res.json();
     this.allResource = data;
   },

@@ -1,7 +1,8 @@
 from flask import jsonify, render_template, render_template_string, request
 from flask_security import auth_required, current_user, roles_required, roles_accepted, SQLAlchemyUserDatastore
-from flask_security.utils import hash_password
+from flask_security.utils import hash_password, verify_password
 from extentions import db
+from models import StudyResource
 
 
 def create_view(app, user_datastore : SQLAlchemyUserDatastore):
@@ -12,6 +13,27 @@ def create_view(app, user_datastore : SQLAlchemyUserDatastore):
     def home():
         return render_template('index.html')
     
+
+    @app.route('/user-login', methods=['POST'])
+    def user_login():
+
+        data = request.get_json()
+        email = data.get('email')
+        password = data.get('password')
+
+        
+        if not email or not password:
+            return jsonify({'message' : 'not valid email or password'}), 404
+        
+        user = user_datastore.find_user(email = email)
+
+        if not user:
+            return jsonify({'message' : 'invalid user'}), 404
+        
+        if verify_password(password, user.password):
+            return jsonify({'token' : user.get_auth_token(), 'role' : user.roles[0].name, 'id' : user.id, 'email' : user.email }), 200
+        else:
+            return jsonify({'message' : 'wrong password'})
 
     @app.route('/register', methods=['POST'])
     def register():
@@ -44,7 +66,7 @@ def create_view(app, user_datastore : SQLAlchemyUserDatastore):
         
     # profile 
     @app.route('/profile')
-    @auth_required('session', 'token')
+    @auth_required('token')
     def profile():
         return render_template_string(
             """
@@ -64,5 +86,53 @@ def create_view(app, user_datastore : SQLAlchemyUserDatastore):
             """
         )
     
-    
+    @app.route('/activate-inst/<id>', methods=['GET'])
+    @roles_accepted('admin')
+    def activate_inst(id):
 
+        user = user_datastore.find_user(id=id)
+        if not user:
+            return jsonify({'message' : 'user not present'}), 404
+
+        # check if inst already activated
+        if (user.active == True):
+            return jsonify({'message' : 'user already active'}), 400
+
+        user.active = True
+        db.session.commit()
+        return jsonify({'message' : 'user is activated'}), 200
+    
+    # activate study resource
+    @app.route('/verify-resource/<id>')
+    @roles_required('inst')
+    def activate_resource(id):
+        resource = StudyResource.query.get(id)
+        if not resource:
+            return jsonify({'message' : 'invalid id'}), 400
+        resource.is_approved = True
+        db.session.commit()
+        return jsonify({'message' : 'resource is now approved'}), 200
+
+    # endpoint to get inactive inst
+    @roles_required('admin')
+    @app.route('/inactive_instructors', methods=['GET'])
+    def get_inactive_instructors():
+        # Query for all users
+        all_users = user_datastore.user_model().query.all()
+        
+        # Filter users to get only inactive instructors
+        inactive_instructors = [
+            user for user in all_users 
+            if not user.active and any(role.name == 'inst' for role in user.roles)
+        ]
+        
+        # Prepare the response data
+        results = [
+            {
+                'id': user.id,
+                'email': user.email,
+            }
+            for user in inactive_instructors
+        ]
+        
+        return jsonify(results), 200
