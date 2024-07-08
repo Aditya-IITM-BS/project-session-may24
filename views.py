@@ -1,6 +1,6 @@
 from flask import jsonify, render_template, render_template_string, request
 from flask_security import auth_required, current_user, roles_required, roles_accepted, SQLAlchemyUserDatastore
-from flask_security.utils import hash_password
+from flask_security.utils import hash_password, verify_password
 from extentions import db
 
 
@@ -11,6 +11,28 @@ def create_view(app, user_datastore : SQLAlchemyUserDatastore):
     @app.route('/')
     def home():
         return render_template('index.html')
+    
+    @app.route('/user-login', methods=['POST'])
+    def user_login():
+        data = request.get_json()
+        email = data.get('email')
+        password = data.get('password')
+
+        if not email or not password:
+            return jsonify({'message' : 'email or password not provided'}), 400
+        
+        user = user_datastore.find_user(email = email)
+
+        if not user:
+            return jsonify({'message' : 'invalid user'}), 400
+        
+        if verify_password(password, user.password):
+            return jsonify({'token' : user.get_auth_token(), 'user' : user.email, 'role' : user.roles[0].name}), 200
+        else :
+            return jsonify({'message' : 'invalid password'}), 400
+
+
+
     
 
     @app.route('/register', methods=['POST'])
@@ -41,10 +63,47 @@ def create_view(app, user_datastore : SQLAlchemyUserDatastore):
             return jsonify({'message' : 'error while creating user'}), 408
         
         return jsonify({'message' : 'user created'}), 200
+    
+    # endpoint to activate instructor
+    @app.route('/activate-instructor/<id>', methods=['GET'])
+    @roles_required('admin')
+    def activate_instructor(id):
+        user = user_datastore.find_user(id = id)
+        if user is None:
+            return jsonify({'message': 'User not found'}), 404
+
+        user_datastore.activate_user(user)
+        db.session.commit()
+
+        return jsonify({'message': 'Instructor activated successfully'}), 200
+
+    # endpoint to get inactive inst
+    @roles_required('admin')
+    @app.route('/inactive_instructors', methods=['GET'])
+    def get_inactive_instructors():
+        # Query for all users
+        all_users = user_datastore.user_model().query.all()
         
+        # Filter users to get only inactive instructors
+        inactive_instructors = [
+            user for user in all_users 
+            if not user.active and any(role.name == 'inst' for role in user.roles)
+        ]
+        
+        # Prepare the response data
+        results = [
+            {
+                'id': user.id,
+                'email': user.email,
+            }
+            for user in inactive_instructors
+        ]
+        
+        return jsonify(results), 200
+
     # profile 
     @app.route('/profile')
-    @auth_required('session', 'token')
+    @auth_required('token')
     def profile():
         return render_template_string(
             """

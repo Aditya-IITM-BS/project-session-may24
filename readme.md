@@ -36,6 +36,37 @@ This a dummy project for MAD II project session, it will be updated throughout t
 - [ ] show StudyResources in Dashboard
 - [ ] tell windows students to install wsl/virtualbox/dualboot linux
 
-## To do
+## Session 04 : Finishing Dashboards & additional Features
 
-- [ ] make CSRF work
+- [x] show StudyResources in Dashboard
+- [x] create StudyResource component
+- [ ] create add resources page
+- [ ] fix add resource creator id in backend
+- [ ] add endpoint to activate instructor (only admin access)
+- [ ] add frontend to activate instructor (only admin access)
+- [ ] Approve studyResource backend (instructor access)
+- [ ] Approve study resource frontend (instructor access)
+- [ ] convert all auth to token based auth
+- [x] include vuex to store data
+- [ ] tell windows students to install wsl/virtualbox/dualboot linux
+
+## Session 05 : Additiona Features
+
+- [ ] implement token auth
+- [ ] tell drawbacks, invalidating tokens, demostrate
+- [ ] convert login, dashboard, profile to token based
+- [ ] add expiry or login token, header
+- [ ] fix popup bug
+- [ ]
+- [ ] profile view
+- [ ] create add resources page
+- [ ] fix add resource creator id in backend
+- [ ] add endpoint to activate instructor (only admin access)
+- [ ] add frontend to activate instructor (only admin access)
+- [ ] Approve studyResource backend (instructor access)
+- [ ] Approve study resource frontend (instructor access)
+- [ ] convert all auth to token based auth
+- [ ] frontend router protection
+
+- [ ] finish all the requirements
+- [ ] bug, clicking home in dashboard not going home

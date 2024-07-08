@@ -1,3 +1,5 @@
+import Logout from "../pages/Logout.js";
+import router from "../utils/router.js";
 import store from "../utils/store.js";
 
 const Navbar = {
@@ -7,7 +9,7 @@ const Navbar = {
     <router-link v-if="!computedlog" to='/login'>Login</router-link>
     <router-link v-if="!computedlog" to='/signup'>Signup</router-link>
     <router-link v-if="computedlog" to='/dashboard'>Dashboard</router-link>
-    <a v-if="computedlog" :href="url">Logout</a>
+    <a v-if="computedlog" @click="logout">Logout</a>
     </nav>
     `,
   data() {
@@ -15,6 +17,12 @@ const Navbar = {
       loggedIn: store.state.loggedIn,
       url: window.location.origin + "/logout",
     };
+  },
+  methods: {
+    logout() {
+      localStorage.clear();
+      router.push("/home");
+    },
   },
   computed: {
     computedlog() {

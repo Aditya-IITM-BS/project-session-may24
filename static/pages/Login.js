@@ -25,7 +25,7 @@ const Login = {
   methods: {
     async submitInfo() {
       const url = window.location.origin;
-      const res = await fetch(url + "/login", {
+      const res = await fetch(url + "/user-login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,7 +35,11 @@ const Login = {
 
       if (res.ok) {
         store.commit("setLogin");
+        const data = await res.json();
         console.log(store.state.loggedIn);
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("email", data.email);
+        localStorage.setItem("role", data.role);
         // set role also
         router.push("/profile"); // add logic for inst-dash vs stud
       } else {
