@@ -43,6 +43,9 @@ const Login = {
 
         console.log(sessionStorage.getItem("role"));
 
+        this.$store.commit("setLogin", true);
+        this.$store.commit("setRole", data.role);
+
         router.push("/dashboard"); // add logic for inst-dash vs stud
       } else {
         console.error("Login Failed");

@@ -64,30 +64,10 @@ def create_view(app, user_datastore : SQLAlchemyUserDatastore):
         
         return jsonify({'message' : 'user created'}), 200
         
-    # profile 
-    @app.route('/profile')
-    @auth_required('token')
-    def profile():
-        return render_template_string(
-            """
-                <h1> This is profile page </h1>
-                <p> Welcome, {{current_user.email}}
-                <a href="/logout">logout</a>
-            """
-        )
     
-    @app.route('/inst-dashboard')
-    @roles_accepted('inst')
-    def inst_dashboard():
-        return render_template_string(
-            """
-                <h1> Instructor profile </h1>
-                <p> it should only be visible to instructor</p>
-            """
-        )
     
-    @app.route('/activate-inst/<id>', methods=['GET'])
     @roles_accepted('admin')
+    @app.route('/activate-inst/<id>', methods=['GET'])
     def activate_inst(id):
 
         user = user_datastore.find_user(id=id)

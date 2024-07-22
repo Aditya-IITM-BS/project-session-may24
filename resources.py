@@ -36,4 +36,15 @@ class StudyMaterials(Resource):
         db.session.commit()
         return {'message' : 'resource created'}, 200
 
+
+class UnapprovedStudyMaterials(Resource):
+    @auth_required('token')
+    @marshal_with(study_materials_fields)
+    def get(self):
+        all_resources = StudyResource.query.all()
+        filtered = [ res for res in all_resources if not res.is_approved ]
+        return filtered
+
+
+api.add_resource(UnapprovedStudyMaterials, '/resources/unapproved')
 api.add_resource(StudyMaterials, '/resources')

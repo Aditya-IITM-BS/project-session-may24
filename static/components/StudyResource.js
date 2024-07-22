@@ -37,7 +37,7 @@ const StudyResource = {
       type: Boolean,
     },
     approvalID: {
-      type: String,
+      type: Number,
     },
   },
   data() {
@@ -51,6 +51,21 @@ const StudyResource = {
     },
     closePopup() {
       this.showPopup = false;
+    },
+    async sendApproval() {
+      const res = fetch(
+        window.location.origin + "/verify-resource/" + this.approvalID,
+        {
+          headers: {
+            "Authentication-Token": sessionStorage.getItem("token"),
+          },
+        }
+      );
+
+      // find out
+      if (res.ok) {
+        alert("resource verfied");
+      }
     },
   },
   mounted() {
