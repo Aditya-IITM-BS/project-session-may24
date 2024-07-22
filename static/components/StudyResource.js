@@ -1,6 +1,6 @@
 const StudyResource = {
   template: `<div>
-    <div class="card shadow-sm p-4 mb-4 study-resource-card" @click="openPopup">
+    <div v-if="!showPopup" class="card shadow-sm p-4 mb-4 study-resource-card" @click="openPopup">
       <div class="card-body">
         <h3 class="card-title text-center mb-3 text-primary text-truncate">{{ topic }}</h3>
         <p class="card-text text-secondary text-truncate">{{ content }}</p>
@@ -37,7 +37,7 @@ const StudyResource = {
       type: Boolean,
     },
     approvalID: {
-      type: String,
+      type: Number,
     },
   },
   data() {
@@ -51,6 +51,21 @@ const StudyResource = {
     },
     closePopup() {
       this.showPopup = false;
+    },
+    async sendApproval() {
+      const res = await fetch(
+        window.location.origin + "/verify-resource/" + this.approvalID,
+        {
+          headers: {
+            "Authentication-Token": sessionStorage.getItem("token"),
+          },
+        }
+      );
+
+      if (res.ok) {
+        alert("resource approved");
+        this.$route.push("/dashboard-inst");
+      }
     },
   },
   mounted() {

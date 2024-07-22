@@ -86,8 +86,9 @@ def create_view(app, user_datastore : SQLAlchemyUserDatastore):
             """
         )
     
-    @app.route('/activate-inst/<id>', methods=['GET'])
-    @roles_accepted('admin')
+    # @auth_required('token')
+    @roles_required('admin')
+    @app.route('/activate-inst/<id>' )
     def activate_inst(id):
 
         user = user_datastore.find_user(id=id)

@@ -18,8 +18,12 @@ const DashBoardStud = {
         "Authentication-Token": sessionStorage.getItem("token"),
       },
     });
-    const data = await res.json();
-    this.allResource = data;
+    console.log(res.ok);
+
+    if (res.ok) {
+      const data = await res.json();
+      this.allResource = data;
+    }
   },
   components: { StudyResource },
 };

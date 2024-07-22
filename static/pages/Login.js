@@ -1,5 +1,4 @@
 import router from "../utils/router.js";
-// import store from "../utils/store.js";
 
 const Login = {
   template: `
@@ -43,7 +42,20 @@ const Login = {
 
         console.log(sessionStorage.getItem("role"));
 
-        router.push("/dashboard"); // add logic for inst-dash vs stud
+        // add data to vuex
+        this.$store.commit("setRole", data.role);
+        this.$store.commit("setLogin", true);
+
+        switch (data.role) {
+          case "stud":
+            this.$router.push("/dashboard-stud");
+            break;
+          case "inst":
+            this.$router.push("/dashboard-inst");
+            break;
+          case "admin":
+            this.$router.push("/dashboard-admin");
+        }
       } else {
         console.error("Login Failed");
       }
