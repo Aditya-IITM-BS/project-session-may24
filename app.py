@@ -4,6 +4,7 @@ from extentions import db, security, cache
 from create_initial_data import create_data
 import resources
 from worker import celery_init_app
+import flask_excel as excel
 
 def create_app():
     app = Flask(__name__)
@@ -25,7 +26,7 @@ def create_app():
     app.config['CACHE_REDIS_DB'] = 0
     app.config['CACHE_REDIS_URL'] = 'redis://localhost:6379/0'
     app.config["CACHE_DEFAULT_TIMEOUT"]= 300
-    # app.config["CACHE_REDIS_PORT"] = 6379
+    
 
     cache.init_app(app)
     db.init_app(app)
@@ -64,4 +65,5 @@ if __name__ == "__main__":
 
     # cerating celery application
     celery_app = celery_init_app(app)
+    excel.init_excel(app)
     app.run(debug=True)

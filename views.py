@@ -1,10 +1,12 @@
-from flask import jsonify, render_template, render_template_string, request
+from flask import jsonify, render_template, render_template_string, request, send_file
 from flask_security import auth_required, current_user, roles_required, roles_accepted, SQLAlchemyUserDatastore
 from flask_security.utils import hash_password, verify_password
 from extentions import db
 from models import StudyResource
 from datetime import datetime
-from tasks import celery_task
+from tasks import create_csv
+from flask_excel import make_response_from_query_sets
+from celery.result import AsyncResult
 
 
 def create_view(app, user_datastore : SQLAlchemyUserDatastore, cache):
@@ -146,7 +148,22 @@ def create_view(app, user_datastore : SQLAlchemyUserDatastore, cache):
         
         return jsonify(results), 200
 
-    @app.get('/celery-task')
+    @app.route('/celery-task')
     def celery_task_view():
         task = celery_task.delay() # function to execute this celery task
         return jsonify({'taskid' : task.id}), 200
+
+    @app.route('/download-csv')
+    def download_csv():
+        task = create_csv.delay()
+
+        return jsonify({'task-id' : task.id}), 200
+    
+    @app.get('/get-csv/<id>')
+    def get_csv(id):
+        res = AsyncResult(id)
+
+        if res.ready():
+            return 'task ready'
+        else:
+            return 'task pending', 425 
