@@ -3,9 +3,17 @@ from flask_security import auth_required, current_user, roles_required, roles_ac
 from flask_security.utils import hash_password, verify_password
 from extentions import db
 from models import StudyResource
+from datetime import datetime
+from tasks import celery_task
 
 
-def create_view(app, user_datastore : SQLAlchemyUserDatastore):
+def create_view(app, user_datastore : SQLAlchemyUserDatastore, cache):
+
+    # cache test
+    @app.route('/cache-test')
+    @cache.cached(timeout = 5)
+    def cache_test():
+        return jsonify({"time" : datetime.now()})
 
     # homepage
 
@@ -137,3 +145,8 @@ def create_view(app, user_datastore : SQLAlchemyUserDatastore):
         ]
         
         return jsonify(results), 200
+
+    @app.get('/celery-task')
+    def celery_task_view():
+        task = celery_task.delay() # function to execute this celery task
+        return jsonify({'taskid' : task.id}), 200
