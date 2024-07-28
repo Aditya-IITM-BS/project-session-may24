@@ -12,7 +12,7 @@ def create_csv():
 
     csv_out = make_response_from_query_sets(studyRes, ["topic", "content"], 'csv', file_name="study.csv")
 
-    with open('./downloads/file.csv', 'wb') as file:
+    with open('./user-files/file.csv', 'wb') as file:
         file.write(csv_out.data)
 
     return 'file.csv'
