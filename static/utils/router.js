@@ -1,6 +1,4 @@
-import store from "./store.js";
-
-// import Navbar from "../components/Navbar.js";y
+// import Navbar from "../components/Navbar.js";
 import Home from "../pages/Home.js";
 import Login from "../pages/Login.js";
 import Signup from "../pages/Signup.js";
@@ -9,6 +7,8 @@ import DashboardStud from "../pages/DashboardStud.js";
 import DashboardInst from "../pages/DashboardInst.js";
 import DashboardAdmin from "../pages/DashboardAdmin.js";
 import Profile from "../pages/Profile.js";
+
+import store from "./store.js";
 
 const routes = [
   { path: "/", component: Home },
@@ -30,16 +30,15 @@ const routes = [
     component: DashboardAdmin,
     meta: { requiresLogin: true, role: "admin" },
   },
-  { path: "/profile", component: Profile, meta: { requiresLogin: true } },
+  { path: "/profile", component: Profile, meta: { loggedIn: true } },
 ];
 
 const router = new VueRouter({
   routes,
 });
 
+// frontend router protection
 router.beforeEach((to, from, next) => {
-  // check this
-
   if (to.matched.some((record) => record.meta.requiresLogin)) {
     if (!store.state.loggedIn) {
       next({ path: "/login" });

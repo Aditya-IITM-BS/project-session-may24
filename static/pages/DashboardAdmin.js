@@ -1,24 +1,29 @@
-const AdminDashboard = {
+const DashboardAdmin = {
   template: `
     <div>
         <h1> Admin Dashboard </h1>
+        <h2> Inactive Instructors </h2>
         <div v-for="user in inactiveInst">
-            <div> {{user.email}} || <button @click="sendApproval(user.id)">Approve</button> </div>
+            <div class="justify"> <span> email : {{user.email}} </span> <span> <button class="btn btn-secondary" @click="activate(user.id)"> Activate </button> </span> </div>
         </div>
     </div>
-    `,
+  `,
   data() {
     return {
-      inactiveInst: null,
+      inactiveInst: [],
     };
   },
   methods: {
-    async sendApproval(id) {
+    async activate(id) {
       const res = await fetch(window.location.origin + "/activate-inst/" + id, {
         headers: {
           AuthenticationToken: sessionStorage.getItem("token"),
         },
       });
+
+      if (res.ok) {
+        alert("instructor activated");
+      }
     },
   },
   async mounted() {
@@ -28,8 +33,10 @@ const AdminDashboard = {
       },
     });
 
-    this.inactiveInst = await res.json();
+    if (res.ok) {
+      this.inactiveInst = await res.json();
+    }
   },
 };
 
-export default AdminDashboard;
+export default DashboardAdmin;

@@ -3,10 +3,16 @@ from flask_security import auth_required, current_user, roles_required, roles_ac
 from flask_security.utils import hash_password, verify_password
 from extentions import db
 from models import StudyResource
+import datetime
 
 
-def create_view(app, user_datastore : SQLAlchemyUserDatastore):
+def create_view(app, user_datastore : SQLAlchemyUserDatastore, cache):
 
+    # cache demo
+    @app.route('/cachedemo')
+    @cache.cached(timeout=5)
+    def cacheDemo():
+        return jsonify({"time" : datetime.datetime.now()})
     # homepage
 
     @app.route('/')
@@ -64,10 +70,31 @@ def create_view(app, user_datastore : SQLAlchemyUserDatastore):
         
         return jsonify({'message' : 'user created'}), 200
         
+    # profile 
+    @app.route('/profile')
+    @auth_required('token')
+    def profile():
+        return render_template_string(
+            """
+                <h1> This is profile page </h1>
+                <p> Welcome, {{current_user.email}}
+                <a href="/logout">logout</a>
+            """
+        )
     
+    @app.route('/inst-dashboard')
+    @roles_accepted('inst')
+    def inst_dashboard():
+        return render_template_string(
+            """
+                <h1> Instructor profile </h1>
+                <p> it should only be visible to instructor</p>
+            """
+        )
     
-    @roles_accepted('admin')
-    @app.route('/activate-inst/<id>', methods=['GET'])
+    # @auth_required('token')
+    @roles_required('admin')
+    @app.route('/activate-inst/<id>' )
     def activate_inst(id):
 
         user = user_datastore.find_user(id=id)

@@ -1,6 +1,7 @@
+import time
 from flask_restful import Resource, Api, fields, reqparse, marshal_with
-from flask_security import auth_required
-from extentions import db
+from flask_security import auth_required, roles_required
+from extentions import db, cache
 from models import StudyResource
 
 api = Api(prefix='/api')
@@ -21,8 +22,10 @@ study_materials_fields  = {
 
 class StudyMaterials(Resource):
     @auth_required('token')
+    @cache.cached(timeout=5)
     @marshal_with(study_materials_fields)
     def get(self):
+        time.sleep(3) # artificial slow processing
         all_resources = StudyResource.query.all()
         filtered = [ res for res in all_resources if res.is_approved]
         return filtered
@@ -36,15 +39,14 @@ class StudyMaterials(Resource):
         db.session.commit()
         return {'message' : 'resource created'}, 200
 
-
 class UnapprovedStudyMaterials(Resource):
     @auth_required('token')
+    @roles_required('inst')
+    @cache.cached(timeout=5)
     @marshal_with(study_materials_fields)
     def get(self):
-        all_resources = StudyResource.query.all()
-        filtered = [ res for res in all_resources if not res.is_approved ]
-        return filtered
+        unapproved_resources = StudyResource.query.filter_by(is_approved=False).all()
+        return unapproved_resources
 
-
-api.add_resource(UnapprovedStudyMaterials, '/resources/unapproved')
 api.add_resource(StudyMaterials, '/resources')
+api.add_resource(UnapprovedStudyMaterials, '/resources/unapproved')

@@ -18,11 +18,11 @@ const DashBoardStud = {
         "Authentication-Token": sessionStorage.getItem("token"),
       },
     });
-    try {
+    console.log(res.ok);
+
+    if (res.ok) {
       const data = await res.json();
       this.allResource = data;
-    } catch (e) {
-      console.log("error in converting to json");
     }
   },
   components: { StudyResource },

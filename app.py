@@ -1,8 +1,11 @@
 from flask import Flask
 import views
-from extentions import db, security
+from extentions import db, security, cache
 from create_initial_data import create_data
 import resources
+from flask_caching import Cache
+
+
 
 def create_app():
     app = Flask(__name__)
@@ -16,6 +19,17 @@ def create_app():
     app.config['SECURITY_TOKEN_MAX_AGE'] = 3600 #1hr
     app.config['SECURITY_LOGIN_WITHOUT_CONFIRMATION'] = True
 
+
+    # cache config
+
+    app.config["CACHE_DEFAULT_TIMEOUT"] = 300
+    app.config["DEBUG"] = True
+    app.config["CACHE_TYPE"] = "RedisCache"
+    app.config["CACHE_REDIS_PORT"] = 6379
+
+
+    
+    cache.init_app(app)
     db.init_app(app)
 
     with app.app_context():
@@ -36,7 +50,7 @@ def create_app():
     app.config['SECURITY_CSRF_IGNORE_UNAUTH_ENDPOINTS'] = True
 
 
-    views.create_view(app, user_datastore)
+    views.create_view(app, user_datastore, cache)
 
     # connect flask to flask_restful
     resources.api.init_app(app)
