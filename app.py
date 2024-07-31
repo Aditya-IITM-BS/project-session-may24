@@ -4,6 +4,10 @@ from extentions import db, security, cache
 from create_initial_data import create_data
 import resources
 from flask_caching import Cache
+from worker import celery_init_app
+import flask_excel as excel
+from celery.schedules import crontab
+from tasks import daily_reminder, send_email
 
 
 
@@ -31,6 +35,8 @@ def create_app():
     
     cache.init_app(app)
     db.init_app(app)
+    excel.init_excel(app)
+    
 
     with app.app_context():
 
@@ -57,6 +63,21 @@ def create_app():
 
     return app
 
+app = create_app()
+celery_app = celery_init_app(app)
+
+# daily reminder
+
+@celery_app.on_after_configure.connect
+def send_email(sender, **kwargs):
+    # sender.add_periodic_task(10.0, daily_reminder.s('come again tommorow'), name='add every 10')
+
+    sender.add_periodic_task(
+        crontab(hour=17, minute=48, day_of_week=3),
+        daily_reminder.s('Happy Mondays!'),
+    )
+
+
 if __name__ == "__main__":
-    app = create_app()
     app.run(debug=True)
+

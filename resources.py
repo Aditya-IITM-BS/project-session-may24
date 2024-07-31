@@ -22,7 +22,7 @@ study_materials_fields  = {
 
 class StudyMaterials(Resource):
     @auth_required('token')
-    @cache.cached(timeout=5)
+    @cache.cached(timeout=20)
     @marshal_with(study_materials_fields)
     def get(self):
         time.sleep(3) # artificial slow processing
