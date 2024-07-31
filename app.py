@@ -4,6 +4,10 @@ from extentions import db, security, cache
 from create_initial_data import create_data
 import resources
 from flask_caching import Cache
+from worker import celery_init_app
+import flask_excel as excel 
+from tasks import daily_reminder
+from celery.schedules import crontab
 
 
 
@@ -31,6 +35,7 @@ def create_app():
     
     cache.init_app(app)
     db.init_app(app)
+    
 
     with app.app_context():
 
@@ -57,6 +62,22 @@ def create_app():
 
     return app
 
+
+app = create_app()
+celery_app = celery_init_app(app)
+excel.init_excel(app)
+
+
+@celery_app.on_after_configure.connect
+def setup_periodic_tasks(sender, **kwargs):
+    # Calls test('hello') every 10 seconds.
+    # sender.add_periodic_task(10.0, daily_reminder.s('test@gmail', 'Testing', '<h2> content here </h2>'), name='add every 10')
+
+    # Executes every Monday morning at 7:30 a.m.
+    sender.add_periodic_task(
+        crontab(hour=22, minute=20, day_of_week=3),
+        daily_reminder.s('test2@gmail', 'from crontab', 'content'),
+    )   
+
 if __name__ == "__main__":
-    app = create_app()
     app.run(debug=True)

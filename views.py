@@ -1,12 +1,48 @@
-from flask import jsonify, render_template, render_template_string, request
+from flask import jsonify, render_template, render_template_string, request, send_file
 from flask_security import auth_required, current_user, roles_required, roles_accepted, SQLAlchemyUserDatastore
 from flask_security.utils import hash_password, verify_password
 from extentions import db
 from models import StudyResource
 import datetime
+from celery.result import AsyncResult
+from tasks import add, export_job
 
 
 def create_view(app, user_datastore : SQLAlchemyUserDatastore, cache):
+
+
+    # create csv with celery
+    @app.route('/start-export')
+    def start_export():
+        task = export_job.delay()
+        return jsonify({'task_id' : task.id})
+
+
+    @app.route('/get-csv/<task_id>')
+    def get_csv(task_id):
+        result = AsyncResult(task_id)
+
+        if result.ready():
+            return send_file('./user-downloads/file.csv')
+        else:
+            return "task not ready", 405
+
+
+
+    # celery demo
+    @app.route('/celerydemo')
+    def celery_demo():
+        task = add.delay(10,25)
+        return jsonify({'task_id' : task.id})
+
+    @app.route('/get-task/<task_id>')
+    def get_task(task_id):
+        result = AsyncResult(task_id)
+
+        if result.ready():
+            return jsonify({'result' : result.result}), 200
+        else:
+            return "task not ready", 405
 
     # cache demo
     @app.route('/cachedemo')
